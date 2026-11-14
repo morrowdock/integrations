@@ -3,7 +3,7 @@ import json
 import os
 from urllib.parse import urlsplit, quote
 from urllib.request import Request, build_opener, HTTPRedirectHandler
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 from . import validate, sha256
 from pathlib import Path
 
@@ -37,6 +37,9 @@ class Client:
         try:
             with self._opener.open(request, timeout=self.timeout) as response:
                 return json.load(response)
+        except HTTPError as error:
+            error.close()
+            raise RuntimeError("Relay request failed") from None
         except (URLError, ValueError, OSError):
             raise RuntimeError("Relay request failed") from None
 
