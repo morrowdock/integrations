@@ -1,0 +1,11 @@
+{
+  "name": "morrowdock-validate",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {"morrowdock-validate": "bin/validate.js"},
+  "files": ["bin", "contract/*.json"],
+  "scripts": {"test": "node --test tests/validator.test.js"},
+  "dependencies": {"ajv": "8.20.0"}
+}

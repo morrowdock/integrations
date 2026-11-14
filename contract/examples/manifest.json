@@ -1,0 +1,56 @@
+[
+  {
+    "file": "valid/material.json",
+    "valid": true
+  },
+  {
+    "file": "invalid/material.json",
+    "valid": false,
+    "expectedError": "required: syntheticScope"
+  },
+  {
+    "file": "valid/assignment.json",
+    "valid": true
+  },
+  {
+    "file": "invalid/assignment.json",
+    "valid": false,
+    "expectedError": "pattern: /dates/due"
+  },
+  {
+    "file": "valid/exam.json",
+    "valid": true
+  },
+  {
+    "file": "invalid/exam.json",
+    "valid": false,
+    "expectedError": "const: synthetic verification method must be fixture"
+  },
+  {
+    "file": "valid/ai-draft.json",
+    "valid": true
+  },
+  {
+    "file": "invalid/ai-draft.json",
+    "valid": false,
+    "expectedError": "enum: ai-draft cannot be submitted"
+  },
+  {
+    "file": "valid/verified-submission.json",
+    "valid": true
+  },
+  {
+    "file": "invalid/verified-submission.json",
+    "valid": false,
+    "expectedError": "enum: verified-submission must be submitted or graded"
+  },
+  {
+    "file": "valid/answer.json",
+    "valid": true
+  },
+  {
+    "file": "invalid/answer.json",
+    "valid": false,
+    "expectedError": "required: answer needs inReplyTo"
+  }
+]

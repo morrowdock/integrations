@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools==75.8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "morrowdock-integrations"
+version = "0.1.0"
+description = "Optional sources for the private Morrowdock Materials inbox"
+requires-python = ">=3.11"
+dependencies = ["jsonschema==4.23.0"]
+license = {text = "Apache-2.0"}
+
+[tool.setuptools.packages.find]
+include = ["morrowdock_integrations*"]
+
+[tool.setuptools.package-data]
+morrowdock_integrations = ["schemas/*.json"]

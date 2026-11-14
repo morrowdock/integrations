@@ -1,0 +1,50 @@
+{
+  "schema": "morrowdock.agent-item/v1",
+  "schemaVersion": "1.0.0-draft.1",
+  "id": "00000000-0000-4000-8000-000000000002",
+  "kind": "assignment",
+  "synthetic": true,
+  "syntheticScope": {
+    "scope": "fixture-only",
+    "realAcademicFacts": false
+  },
+  "course": {
+    "code": "TEST 101"
+  },
+  "title": "Synthetic fixture",
+  "summary": "Authored test data only.",
+  "source": {
+    "channel": "manual",
+    "origin": "own",
+    "retrievedAt": "2026-11-14T12:00:00Z",
+    "timeZone": "UTC"
+  },
+  "verification": {
+    "/title": {
+      "status": "verified",
+      "method": "fixture",
+      "checkedAt": "2026-11-14T12:00:00Z"
+    },
+    "/dates/due": {
+      "status": "verified",
+      "method": "fixture",
+      "checkedAt": "2026-11-14T12:00:00Z"
+    },
+    "/dates/availableUntil": {
+      "status": "verified",
+      "method": "fixture",
+      "checkedAt": "2026-11-14T12:00:00Z"
+    }
+  },
+  "coverage": {
+    "status": "partial",
+    "note": "Fixture only"
+  },
+  "version": 1,
+  "createdAt": "2026-11-14T12:00:00Z",
+  "dates": {
+    "due": "tomorrow",
+    "availableUntil": "2026-11-15T12:00:00Z",
+    "timeZone": "UTC"
+  }
+}
