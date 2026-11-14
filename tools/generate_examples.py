@@ -22,6 +22,7 @@ for i, kind in enumerate(["material", "assignment", "exam", "ai-draft", "verifie
             item["verification"][f"/dates/{field}"] = copy.deepcopy(item["verification"]["/title"])
     if kind in ("ai-draft", "verified-submission"):
         item["state"] = {"submission": "draft" if kind == "ai-draft" else "submitted"}
+        item["verification"]["/state/submission"] = copy.deepcopy(item["verification"]["/title"])
     if kind == "answer":
         item["inReplyTo"] = "00000000-0000-4000-8000-000000000099"
     name = f"valid/{kind}.json"

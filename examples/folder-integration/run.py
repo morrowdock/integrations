@@ -19,7 +19,8 @@ def scan(folder, client, seen):
         attachment = client.upload(path, "application/pdf" if path.suffix.lower() == ".pdf" else "text/markdown")
         client.send(build_item(kind="material", course="TEST 101", title=path.name,
                               summary="Synthetic folder demo material.", synthetic=True,
-                              source=provenance("manual"), verification={"/title": verification("verified", "fixture")},
+                              source=provenance("manual"), verification={"/title": verification("verified", "fixture"),
+                                            "/attachments": verification("verified", "fixture")},
                               attachments=[attachment]))
         seen.add(key)
 

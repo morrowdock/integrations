@@ -24,6 +24,11 @@
       "status": "verified",
       "method": "fixture",
       "checkedAt": "2026-11-14T12:00:00Z"
+    },
+    "/state/submission": {
+      "status": "verified",
+      "method": "fixture",
+      "checkedAt": "2026-11-14T12:00:00Z"
     }
   },
   "coverage": {

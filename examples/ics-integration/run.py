@@ -33,7 +33,9 @@ def parse(text):
             yield build_item(kind=kind, course="TEST 101", title=event["SUMMARY"],
                              summary="Synthetic calendar fixture.", synthetic=True,
                              source=provenance("ics"), dates=dates,
-                             verification={f"/dates/{key}": verification("verified", "fixture") for key in dates})
+                             verification={"/title": verification("verified", "fixture"),
+                                           "/kind": verification("verified", "fixture"),
+                                           **{f"/dates/{key}": verification("verified", "fixture") for key in dates}})
             event = None
         else:
             key, sep, value = line.partition(":")
