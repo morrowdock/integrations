@@ -79,6 +79,14 @@ def make_server(token, port=0):
                 validate(data)
                 if data["schema"] != "morrowdock.agent-item/v1" or not data["synthetic"]:
                     raise ValueError()
+                if "inReplyTo" in data and data["inReplyTo"] not in requests:
+                    raise ValueError()
+                if "supersedes" in data:
+                    previous = items.get(data["supersedes"])
+                    agent = data["source"].get("agent")
+                    # Missing names do not establish that two observations share an agent.
+                    if not previous or not agent or previous["source"].get("agent") != agent:
+                        raise ValueError()
                 for attachment in data.get("attachments", []):
                     uploaded = uploads.get(attachment["uploadId"])
                     if (not uploaded or uploaded["data"] is None or

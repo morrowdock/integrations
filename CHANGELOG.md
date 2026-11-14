@@ -8,3 +8,4 @@ All notable changes to this project are documented here, following [Keep a Chang
 
 - Repository start: purpose, contract names and licence.
 - Add the draft Materials contract, Python SDK, Python and JavaScript validators, synthetic mock relay and examples, and contribution checks.
+- Reject impossible dates, unknown time zones, unresolved verification pointers, empty answered requests, and invalid relay references; enforce fixture email boundaries.

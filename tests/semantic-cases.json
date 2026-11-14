@@ -1,0 +1,662 @@
+[
+  {
+    "name": "reject timestamp 2027-02-31T12:00:00Z",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2027-02-31T12:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject timestamp 2027-02-28T24:00:00Z",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2027-02-28T24:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject timestamp 2027-02-29T12:00:00Z",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2027-02-29T12:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject timestamp 2028-02-29T12:00:00+24:00",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2028-02-29T12:00:00+24:00"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject timestamp 2028-02-29T12:00:00+01:60",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2028-02-29T12:00:00+01:60"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject timestamp 0000-01-01T00:00:00Z",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "0000-01-01T00:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject timestamp 2028-01-01T12:00Z",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2028-01-01T12:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject timestamp 2028-01-01T12:00:60Z",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2028-01-01T12:00:60Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "accept timestamp 2028-02-29T23:59:59.123456Z",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2028-02-29T23:59:59.123456Z"
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "accept timestamp 2000-02-29T12:00:00-05:30",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2000-02-29T12:00:00-05:30"
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "accept timestamp 2026-12-31T00:00:00+23:59",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2026-12-31T00:00:00+23:59"
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "reject dates.due",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "dates"
+        ],
+        {
+          "timeZone": "UTC",
+          "due": "2027-02-31T12:00:00Z"
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject dates.availableFrom",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "dates"
+        ],
+        {
+          "timeZone": "UTC",
+          "availableFrom": "2027-02-31T12:00:00Z"
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject dates.availableUntil",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "dates"
+        ],
+        {
+          "timeZone": "UTC",
+          "availableUntil": "2027-02-31T12:00:00Z"
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject dates.start",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "dates"
+        ],
+        {
+          "timeZone": "UTC",
+          "start": "2027-02-31T12:00:00Z"
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject dates.end",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "dates"
+        ],
+        {
+          "timeZone": "UTC",
+          "end": "2027-02-31T12:00:00Z"
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject source retrieval",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "source",
+          "retrievedAt"
+        ],
+        "2027-02-31T12:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject verification check",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "verification",
+          "/title",
+          "checkedAt"
+        ],
+        "2027-02-31T12:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject policy check",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "aiPolicy"
+        ],
+        {
+          "rule": "unknown",
+          "scope": "course",
+          "checkedAt": "2027-02-31T12:00:00Z"
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject request createdAt",
+    "base": "request",
+    "changes": [
+      [
+        [
+          "createdAt"
+        ],
+        "2027-02-31T12:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject request expiresAt",
+    "base": "request",
+    "changes": [
+      [
+        [
+          "expiresAt"
+        ],
+        "2027-02-31T12:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject request since",
+    "base": "request",
+    "changes": [
+      [
+        [
+          "since"
+        ],
+        "2027-02-31T12:00:00Z"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject source zone",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "source",
+          "timeZone"
+        ],
+        "Mars/Olympus"
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "reject dates zone",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "dates"
+        ],
+        {
+          "timeZone": "Mars/Olympus"
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "accept zone UTC",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "source",
+          "timeZone"
+        ],
+        "UTC"
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "accept zone America/New_York",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "source",
+          "timeZone"
+        ],
+        "America/New_York"
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "accept zone Etc/UTC",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "source",
+          "timeZone"
+        ],
+        "Etc/UTC"
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "accept zone Etc/GMT+5",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "source",
+          "timeZone"
+        ],
+        "Etc/GMT+5"
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "pointer /missing",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "verification"
+        ],
+        {
+          "/missing": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "pointer /title/length",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "verification"
+        ],
+        {
+          "/title/length": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "pointer /source/missing",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "verification"
+        ],
+        {
+          "/source/missing": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "pointer /source/channel",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "verification"
+        ],
+        {
+          "/source/channel": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "pointer /syntheticScope/realAcademicFacts",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "verification"
+        ],
+        {
+          "/syntheticScope/realAcademicFacts": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "pointer /attachments/0/name",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "attachments"
+        ],
+        [
+          {
+            "uploadId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "name": "fixture.md",
+            "mime": "text/markdown",
+            "size": 1,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      ],
+      [
+        [
+          "verification"
+        ],
+        {
+          "/attachments/0/name": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": true
+  },
+  {
+    "name": "pointer /attachments/1/name",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "attachments"
+        ],
+        [
+          {
+            "uploadId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "name": "fixture.md",
+            "mime": "text/markdown",
+            "size": 1,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      ],
+      [
+        [
+          "verification"
+        ],
+        {
+          "/attachments/1/name": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "pointer /attachments/00/name",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "attachments"
+        ],
+        [
+          {
+            "uploadId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "name": "fixture.md",
+            "mime": "text/markdown",
+            "size": 1,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      ],
+      [
+        [
+          "verification"
+        ],
+        {
+          "/attachments/00/name": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "pointer /attachments/length",
+    "base": "item",
+    "changes": [
+      [
+        [
+          "attachments"
+        ],
+        [
+          {
+            "uploadId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "name": "fixture.md",
+            "mime": "text/markdown",
+            "size": 1,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      ],
+      [
+        [
+          "verification"
+        ],
+        {
+          "/attachments/length": {
+            "status": "verified",
+            "method": "fixture",
+            "checkedAt": "2026-11-14T12:00:00Z"
+          }
+        }
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "answered request False",
+    "base": "request",
+    "changes": [
+      [
+        [
+          "status"
+        ],
+        "answered"
+      ],
+      [
+        [
+          "answeredBy"
+        ],
+        []
+      ]
+    ],
+    "valid": false
+  },
+  {
+    "name": "answered request True",
+    "base": "request",
+    "changes": [
+      [
+        [
+          "status"
+        ],
+        "answered"
+      ],
+      [
+        [
+          "answeredBy"
+        ],
+        [
+          "00000000-0000-4000-8000-000000000099"
+        ]
+      ]
+    ],
+    "valid": true
+  }
+]

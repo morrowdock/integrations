@@ -26,5 +26,6 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          python tools/check_emails.py "$BASE_SHA" "$HEAD_SHA"
           python tools/check_dco.py "$BASE_SHA" "$HEAD_SHA"
           python tools/check_changelog.py "$BASE_SHA" "$HEAD_SHA"

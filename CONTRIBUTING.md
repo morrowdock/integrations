@@ -23,3 +23,7 @@ tests and builds. Do not merge or push to main from an implementation task.
 The changelog checker derives from morrowdock/courses tools/check_changelog.py,
 main commit 75b88e23a48283d5cfa3a5caeb9c253049e9aa60 (verified 2026-11-14),
 with all-path enforcement, no label exemption, and strict closing-fence handling.
+
+Fixture email addresses must use example.invalid. CI checks test and example files.
+The approved author/sign-off identity and co-author trailer in the email checker
+are exceptions for Git commit metadata only, never fixture content.

@@ -1,4 +1,5 @@
 import hashlib
+import copy
 import importlib.util
 import json
 import os
@@ -19,6 +20,17 @@ EXAMPLES = ROOT / 'contract/examples'
 
 def fixture():
     return json.loads((EXAMPLES / 'valid/material.json').read_text())
+
+
+def semantic_cases():
+    for entry in json.loads((ROOT / 'tests/semantic-cases.json').read_text()):
+        value = fixture() if entry['base'] == 'item' else json.loads((ROOT / 'tests/fixtures/request.json').read_text())
+        for path, replacement in entry['changes']:
+            parent = value
+            for key in path[:-1]:
+                parent = parent[key]
+            parent[path[-1]] = copy.deepcopy(replacement)
+        yield entry, value
 
 
 def example_module(name):
@@ -42,6 +54,20 @@ class ContractTests(unittest.TestCase):
                 js = subprocess.run(['node', 'bin/validate.js', str(EXAMPLES / entry['file'])], capture_output=True)
                 self.assertEqual(valid, entry['valid'])
                 self.assertEqual(js.returncode, 0 if valid else 1)
+
+    def test_shared_semantics(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'synthetic.json'
+            for entry, value in semantic_cases():
+                with self.subTest(case=entry['name']):
+                    path.write_text(json.dumps(value))
+                    if entry['valid']:
+                        validate(value)
+                    else:
+                        with self.assertRaisesRegex(ValueError, 'semantic:'):
+                            validate(value)
+                    js = subprocess.run(['node', 'bin/validate.js', str(path)], capture_output=True)
+                    self.assertEqual(js.returncode, 0 if entry['valid'] else 1)
 
     def test_schema_copies(self):
         for path in (ROOT / 'contract').glob('*.schema.json'):
@@ -100,6 +126,48 @@ class RelayTests(unittest.TestCase):
         self.assertEqual(self.client.status()['items'], 2)
         with self.assertRaises(RuntimeError):
             self.client.answer(requests[0]['id'], answer)
+
+    def test_relay_semantics(self):
+        for entry, value in semantic_cases():
+            if entry['base'] == 'item' and not entry['valid']:
+                with self.subTest(case=entry['name']):
+                    # Raw transport bypasses the SDK's local validator.
+                    with self.assertRaises(RuntimeError):
+                        self.client._call('POST', '/v1/items', value)
+        self.assertEqual(self.client.status()['items'], 0)
+
+    def test_unknown_request_reference(self):
+        for kind in ('material', 'answer'):
+            item = fixture(); item.update(kind=kind, inReplyTo='00000000-0000-4000-8000-000000000099')
+            with self.assertRaises(RuntimeError): self.client.send(item)
+        self.assertEqual(self.client.status()['items'], 0)
+        item['inReplyTo'] = self.client.requests()[0]['id']
+        self.client.send(item)
+        self.assertEqual(self.client.status()['items'], 1)
+
+    def test_supersedes_identity(self):
+        original = fixture(); original['source']['agent'] = 'synthetic-agent'
+        revision = copy.deepcopy(original)
+        revision.update(id='00000000-0000-4000-8000-000000000022', supersedes=original['id'], version=2)
+        with self.assertRaises(RuntimeError): self.client.send(revision)
+        self.client.send(original)
+        for agent in ('another-synthetic-agent', '', None):
+            wrong = copy.deepcopy(revision)
+            if agent is None:
+                del wrong['source']['agent']
+            else:
+                wrong['source']['agent'] = agent
+            with self.assertRaises(RuntimeError): self.client.send(wrong)
+        self.assertEqual(self.client.status()['items'], 1)
+        self.client.send(revision)
+        self.assertEqual(self.client.status()['items'], 2)
+
+    def test_missing_agents_do_not_establish_identity(self):
+        original = fixture(); self.client.send(original)
+        revision = copy.deepcopy(original)
+        revision.update(id='00000000-0000-4000-8000-000000000022', supersedes=original['id'], version=2)
+        with self.assertRaises(RuntimeError): self.client.send(revision)
+        self.assertEqual(self.client.status()['items'], 1)
 
     def test_auth(self):
         with patch.dict(os.environ, {'MORROWDOCK_TOKEN': 'wrong-synthetic-value'}):
@@ -201,6 +269,26 @@ class DCOTests(unittest.TestCase):
     def test_invalid_commit(self):
         from tools.check_dco import main
         with self.assertRaises(ValueError): main('main', 'HEAD')
+
+
+class EmailPolicyTests(unittest.TestCase):
+    def test_fixture_addresses(self):
+        from tools.check_emails import fixture_emails_allowed
+        for directory in ('tests', 'examples', 'contract/examples'):
+            for path in (ROOT / directory).rglob('*'):
+                if path.is_file() and '__pycache__' not in path.parts:
+                    self.assertTrue(fixture_emails_allowed(path.read_text()), str(path))
+
+    def test_metadata_only_exceptions(self):
+        from tools.check_emails import AUTHOR, COAUTHOR, fixture_emails_allowed, metadata_allowed
+        self.assertTrue(fixture_emails_allowed('learner@example.invalid'))
+        self.assertFalse(fixture_emails_allowed(AUTHOR))
+        self.assertFalse(fixture_emails_allowed(COAUTHOR))
+        message = 'Change\n\nSigned-off-by: ' + AUTHOR + '\nCo-Authored-By: ' + COAUTHOR + '\n'
+        self.assertTrue(metadata_allowed(AUTHOR, AUTHOR, message))
+        self.assertFalse(metadata_allowed(AUTHOR, AUTHOR, 'Mention ' + COAUTHOR))
+        self.assertFalse(metadata_allowed(COAUTHOR, AUTHOR, message))
+        self.assertFalse(metadata_allowed(AUTHOR, AUTHOR, 'Signed-off-by: ' + COAUTHOR))
 
 
 if __name__ == '__main__':

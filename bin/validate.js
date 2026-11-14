@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import Ajv2020 from 'ajv/dist/2020.js';
+import {validateSemantics} from './semantics.js';
 const ajv = new Ajv2020({strict: false, allErrors: true});
 const validators = new Map(['item', 'request'].map(kind => {
   const schema = JSON.parse(fs.readFileSync(new URL(`../contract/agent-${kind}.v1.schema.json`, import.meta.url)));
@@ -8,7 +9,7 @@ const validators = new Map(['item', 'request'].map(kind => {
 }));
 export function validate(value) {
   const validator = validators.get(value?.schema);
-  return Boolean(validator && validator(value));
+  return Boolean(validator && validator(value) && validateSemantics(value, validator.schema));
 }
 if (process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(new URL(import.meta.url))) {
   try {

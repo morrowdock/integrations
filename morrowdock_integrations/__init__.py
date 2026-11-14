@@ -6,6 +6,7 @@ from importlib.resources import files
 from uuid import uuid4
 
 from jsonschema import Draft202012Validator
+from .semantics import validate_semantics
 
 VERSION = "1.0.0-draft.1"
 SCHEMAS = {
@@ -16,7 +17,7 @@ SCHEMAS = {
 
 
 def validate(value):
-    """Raise ValueError for a schema violation; never include content in errors."""
+    """Raise ValueError for a schema or semantic violation; never include content in errors."""
     name = value.get("schema") if isinstance(value, dict) else None
     validator = SCHEMAS.get(name) if isinstance(name, str) else None
     if validator is None:
@@ -25,6 +26,7 @@ def validate(value):
     if errors:
         error = errors[0]
         raise ValueError(f"/{'/'.join(map(str, error.path))}: {error.validator}")
+    validate_semantics(value, validator.schema)
     return value
 
 

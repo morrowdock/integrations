@@ -4,8 +4,9 @@ Status: verified schema copy, 2026-11-14. The two JSON files are the supplied
 1.0.0-draft.1 schemas, unchanged. Their `$id` values use `urn:morrowdock:schema:`.
 The schema is the machine-readable authority for syntax and limits. The rules
 below also constrain producers and consumers; a schema pass alone does not prove
-privacy, freshness, authenticity, or academic correctness. Date/time and URL
-patterns in this draft check shape, not calendar validity or safe destinations.
+privacy, freshness, authenticity, or academic correctness. The unchanged schema
+patterns check shape; validators also apply the semantic checks below. URL
+validation does not establish that a destination is safe.
 
 ## Rules
 
@@ -78,7 +79,7 @@ Optional fields may be omitted. Unknown fields are rejected. Required fields:
 | source.url | HTTPS evidence URL; required for canvas, drive, or web origins. Never a credential-bearing URL. |
 | source.retrievedAt | Required observation time with offset. |
 | source.timeZone | Required UTC or IANA zone name. |
-| verification | 1–50 entries keyed by field JSON Pointers, such as /dates/due. This draft supports simple alphanumeric, underscore and hyphen pointer segments. Producers must point to actual fields; schema validation does not check resolution. |
+| verification | 1–50 entries keyed by field JSON Pointers, such as /dates/due. This draft supports simple alphanumeric, underscore and hyphen pointer segments. Producers must point to actual fields; semantic validation checks resolution. |
 | verification[pointer].status | verified, reported, guess, or unknown. Required. |
 | verification[pointer].method | canvas-api, canvas-page, syllabus, instructor-message, drive-file, agent-inference, fixture, or other. Required. |
 | verification[pointer].checkedAt | Required check time with offset. |
@@ -113,6 +114,36 @@ permits only notStarted, draft or unknown submission state.
 | expiresAt | Required expiry time with offset. Agents must not answer expired requests. |
 | status | Required open, answered, or expired. |
 | answeredBy | Up to 20 answer item UUIDs; required when status is answered. |
+
+## Semantic checks
+
+After the unchanged schema check, both Python and JavaScript validators enforce
+these stateless rules. The mock uses the same Python validation before storage.
+
+1. Every dateTime must parse as a real RFC 3339 calendar timestamp. Impossible
+   dates (such as February 31), hour 24, and invalid offsets are rejected. This
+   preview profile requires seconds, years 0001–9999, and seconds 00–59; leap-second
+   representations are unsupported. Fractions retain the schema's 1–6 digit limit.
+2. Every timeZone must be UTC or a real IANA name. Python uses
+   `zoneinfo.available_timezones()`; JavaScript uses `Intl.supportedValuesOf('timeZone')`
+   and ICU resolution for IANA aliases. Keep runtime time-zone databases current;
+   newly introduced names can differ between runtime versions.
+3. Every verification JSON Pointer must resolve to a field present in the item.
+   Array indices must be canonical nonnegative integers within the array bounds.
+4. A request with status answered must have at least one answeredBy UUID.
+
+The following two checks require relay state and run before storing any item,
+including items sent directly to POST /v1/items:
+
+5. inReplyTo must name an existing request.
+6. supersedes must name an earlier stored item from the same source.agent.
+   Both items must have the same non-empty agent name; two missing names do not
+   establish identity. “Earlier” means already stored, not a trusted content clock.
+   A production relay must bind source.agent to authenticated identity; the mock's
+   synthetic name comparison is not an authorization boundary.
+
+Standalone validators cannot confirm request or item existence and therefore
+perform checks 1–4 only. A syntactically valid reference still needs relay checks.
 
 ## Versioning and examples
 
