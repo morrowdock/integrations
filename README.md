@@ -49,9 +49,7 @@ The npm package is not published. `npx morrowdock-validate <file>` resolves the
 local binary after `npm ci`; `--no-install` prevents accidental registry lookup.
 The Python package is also a local preview, not a released registry package.
 
-On the shared Morrowdock laptop, wrap **every install, build, or test** with
-`~/.local/bin/md-heavy <label> <command...>`; the commands above describe portable
-setup for other contributors. Do not change the host's home-service containers.
+Heavy installs and test runs can take several minutes; run them when the machine is free.
 
 ## Write your own
 

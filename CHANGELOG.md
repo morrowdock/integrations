@@ -4,6 +4,10 @@ All notable changes to this project are documented here, following [Keep a Chang
 
 ## [Unreleased]
 
+### Changed
+
+- Replace machine-specific install and test instructions with portable contributor guidance.
+
 ### Added
 
 - Repository start: purpose, contract names and licence.

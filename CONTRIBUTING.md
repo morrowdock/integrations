@@ -17,8 +17,8 @@ marker. Do not put a change only in a released section. There is no label bypass
 
 Run both validator suites and SDK/mock tests from the README. Keep packaged
 schemas byte-identical to contract/. Change the contract only through an explicit
-versioned contract review. On the shared laptop, use md-heavy for all installs,
-tests and builds. Do not merge or push to main from an implementation task.
+versioned contract review. Heavy installs and test runs can take several minutes;
+run them when the machine is free. Do not merge or push to main from an implementation task.
 
 The changelog checker derives from morrowdock/courses tools/check_changelog.py,
 main commit 75b88e23a48283d5cfa3a5caeb9c253049e9aa60 (verified 2026-11-14),
